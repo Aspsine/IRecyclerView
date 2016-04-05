@@ -1,6 +1,8 @@
 package com.aspsine.irecyclerview.demo;
 
 
+import android.util.Log;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -18,6 +20,7 @@ public class NetworkAPI {
         TypeToken<List<Image>> typeToken = new TypeToken<List<Image>>() {
         };
         String url = Constants.ImagesAPI(page);
+        Log.i("NetworkAPI", url);
         Request request = new GsonRequest<List<Image>>(url, typeToken, new Response.Listener<List<Image>>() {
 
             @Override

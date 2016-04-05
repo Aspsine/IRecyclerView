@@ -2,8 +2,7 @@ package com.aspsine.irecyclerview.demo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.Toast;
 
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         iRecyclerView = (IRecyclerView) findViewById(R.id.iRecyclerView);
-        iRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        iRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         loadMoreFooterView = (LoadMoreFooterView) iRecyclerView.getLoadMoreFooterView();
 
         mAdapter = new ImageAdapter();
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     @Override
     public void onRefresh() {
 //        loadBanner();
+        loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
         refresh();
     }
 
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                 } else {
                     mPage++;
                     loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-                    mAdapter.setList(images);
+                    mAdapter.append(images);
                 }
             }
 
