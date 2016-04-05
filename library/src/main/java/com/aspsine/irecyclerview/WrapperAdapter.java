@@ -26,6 +26,37 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final LinearLayout mHeaderContainer;
 
     private final LinearLayout mFooterContainer;
+    private RecyclerView.AdapterDataObserver mObserver = new RecyclerView.AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            WrapperAdapter.this.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            WrapperAdapter.this.notifyItemRangeChanged(positionStart + 2, itemCount);
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
+            WrapperAdapter.this.notifyItemRangeChanged(positionStart + 2, itemCount, payload);
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            WrapperAdapter.this.notifyItemRangeInserted(positionStart + 2, itemCount);
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            WrapperAdapter.this.notifyItemRangeRemoved(positionStart + 2, itemCount);
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            WrapperAdapter.this.notifyDataSetChanged();
+        }
+    };
 
     public WrapperAdapter(RecyclerView.Adapter adapter, RefreshHeaderLayout refreshHeaderContainer, LinearLayout headerContainer, LinearLayout footerContainer, FrameLayout loadMoreFooterContainer) {
         this.mAdapter = adapter;
@@ -75,10 +106,7 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private boolean isFullSpanType(int type) {
-        if (type == REFRESH_HEADER || type == HEADER || type == FOOTER || type == LOAD_MORE_FOOTER) {
-            return true;
-        }
-        return false;
+        return type == REFRESH_HEADER || type == HEADER || type == FOOTER || type == LOAD_MORE_FOOTER;
     }
 
     @Override
@@ -124,38 +152,6 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             mAdapter.onBindViewHolder(holder, position - 2);
         }
     }
-
-    private RecyclerView.AdapterDataObserver mObserver = new RecyclerView.AdapterDataObserver() {
-        @Override
-        public void onChanged() {
-            WrapperAdapter.this.notifyDataSetChanged();
-        }
-
-        @Override
-        public void onItemRangeChanged(int positionStart, int itemCount) {
-            WrapperAdapter.this.notifyItemRangeChanged(positionStart + 2, itemCount);
-        }
-
-        @Override
-        public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
-            WrapperAdapter.this.notifyItemRangeChanged(positionStart + 2, itemCount, payload);
-        }
-
-        @Override
-        public void onItemRangeInserted(int positionStart, int itemCount) {
-            WrapperAdapter.this.notifyItemRangeInserted(positionStart + 2, itemCount);
-        }
-
-        @Override
-        public void onItemRangeRemoved(int positionStart, int itemCount) {
-            WrapperAdapter.this.notifyItemRangeRemoved(positionStart + 2, itemCount);
-        }
-
-        @Override
-        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-            WrapperAdapter.this.notifyDataSetChanged();
-        }
-    };
 
     static class RefreshHeaderContainerViewHolder extends RecyclerView.ViewHolder {
 

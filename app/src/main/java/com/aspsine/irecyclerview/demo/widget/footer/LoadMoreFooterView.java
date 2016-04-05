@@ -23,14 +23,6 @@ public class LoadMoreFooterView extends FrameLayout {
 
     private OnRetryListener mOnRetryListener;
 
-    public interface OnRetryListener {
-        void onRetry(LoadMoreFooterView view);
-    }
-
-    public static enum Status {
-        GONE, LOADING, ERROR, THE_END
-    }
-
     public LoadMoreFooterView(Context context) {
         this(context, null);
     }
@@ -63,20 +55,17 @@ public class LoadMoreFooterView extends FrameLayout {
         this.mOnRetryListener = listener;
     }
 
+    public Status getStatus() {
+        return mStatus;
+    }
+
     public void setStatus(Status status) {
         this.mStatus = status;
         change();
     }
 
-    public Status getStatus() {
-        return mStatus;
-    }
-
     public boolean canLoadMore() {
-        if (mStatus == Status.GONE || mStatus == Status.ERROR) {
-            return true;
-        }
-        return false;
+        return mStatus == Status.GONE || mStatus == Status.ERROR;
     }
 
     private void change() {
@@ -105,6 +94,14 @@ public class LoadMoreFooterView extends FrameLayout {
                 mTheEndView.setVisibility(VISIBLE);
                 break;
         }
+    }
+
+    public enum Status {
+        GONE, LOADING, ERROR, THE_END
+    }
+
+    public interface OnRetryListener {
+        void onRetry(LoadMoreFooterView view);
     }
 
 }
