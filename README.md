@@ -38,7 +38,7 @@ allprojects {
 Step 2. Add the dependency
 ```groovy
 dependencies {
-    compile 'com.github.Aspsine:IRecyclerView:1.0.0'
+    compile 'com.github.Aspsine:IRecyclerView:0.0.1'
 }
 ```
 Step 3. Edit your Activity/Fragment content view layout
