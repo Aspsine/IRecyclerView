@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:loadMoreEnabled="true"
+    app:loadMoreFooterLayout="@layout/layout_irecyclerview_load_more_footer"
     app:refreshEnabled="true"
     app:refreshHeaderLayout="@layout/layout_irecyclerview_refresh_header"
-    app:loadMoreFooterLayout="@layout/layout_irecyclerview_load_more_footer"
-    tools:context=".MainActivity" />
+    tools:context=".ui.activity.MainActivity" />

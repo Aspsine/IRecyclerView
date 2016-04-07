@@ -1,4 +1,4 @@
-package com.aspsine.irecyclerview.demo.widget.header;
+package com.aspsine.irecyclerview.demo.ui.widget.header;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -15,7 +15,7 @@ import com.aspsine.irecyclerview.demo.R;
 /**
  * Created by aspsine on 16/3/14.
  */
-public class RefreshHeaderView extends RelativeLayout implements RefreshTrigger {
+public class ClassicRefreshHeaderView extends RelativeLayout implements RefreshTrigger {
     private ImageView ivArrow;
 
     private ImageView ivSuccess;
@@ -32,15 +32,15 @@ public class RefreshHeaderView extends RelativeLayout implements RefreshTrigger 
 
     private int mHeight;
 
-    public RefreshHeaderView(Context context) {
+    public ClassicRefreshHeaderView(Context context) {
         this(context, null);
     }
 
-    public RefreshHeaderView(Context context, AttributeSet attrs) {
+    public ClassicRefreshHeaderView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public RefreshHeaderView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ClassicRefreshHeaderView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         inflate(context, R.layout.layout_irecyclerview_classic_refresh_header_view, this);

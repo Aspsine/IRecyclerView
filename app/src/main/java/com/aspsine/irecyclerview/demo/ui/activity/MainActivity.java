@@ -1,17 +1,23 @@
-package com.aspsine.irecyclerview.demo;
+package com.aspsine.irecyclerview.demo.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
 import com.aspsine.irecyclerview.IRecyclerView;
 import com.aspsine.irecyclerview.OnLoadMoreListener;
 import com.aspsine.irecyclerview.OnRefreshListener;
+import com.aspsine.irecyclerview.demo.R;
+import com.aspsine.irecyclerview.demo.model.Image;
+import com.aspsine.irecyclerview.demo.network.NetworkAPI;
+import com.aspsine.irecyclerview.demo.ui.adapter.ImageAdapter;
+import com.aspsine.irecyclerview.demo.ui.adapter.OnItemClickListener;
+import com.aspsine.irecyclerview.demo.ui.widget.BannerView;
+import com.aspsine.irecyclerview.demo.ui.widget.footer.LoadMoreFooterView;
 import com.aspsine.irecyclerview.demo.utils.ListUtils;
-import com.aspsine.irecyclerview.demo.widget.BannerView;
-import com.aspsine.irecyclerview.demo.widget.footer.LoadMoreFooterView;
 
 import java.util.List;
 
@@ -32,6 +38,10 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         setContentView(R.layout.activity_main);
         iRecyclerView = (IRecyclerView) findViewById(R.id.iRecyclerView);
         iRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        bannerView = (BannerView) LayoutInflater.from(this).inflate(R.layout.layout_banner_view, iRecyclerView.getHeaderContainer(), false);
+        iRecyclerView.addHeaderView(bannerView);
+
         loadMoreFooterView = (LoadMoreFooterView) iRecyclerView.getLoadMoreFooterView();
 
         mAdapter = new ImageAdapter();
@@ -50,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     @Override
     public void onRefresh() {
-//        loadBanner();
+        loadBanner();
         loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
         refresh();
     }
@@ -67,7 +77,9 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         NetworkAPI.requestBanners(new NetworkAPI.Callback<List<Image>>() {
             @Override
             public void onSuccess(List<Image> images) {
-                bannerView.setList(images);
+                if (!ListUtils.isEmpty(images)) {
+                    bannerView.setList(images);
+                }
             }
 
             @Override
@@ -103,13 +115,19 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     private void loadMore() {
         NetworkAPI.requestImages(mPage, new NetworkAPI.Callback<List<Image>>() {
             @Override
-            public void onSuccess(List<Image> images) {
+            public void onSuccess(final List<Image> images) {
                 if (ListUtils.isEmpty(images)) {
                     loadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
                 } else {
-                    mPage++;
-                    loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-                    mAdapter.append(images);
+
+                    loadMoreFooterView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mPage++;
+                            loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                            mAdapter.append(images);
+                        }
+                    }, 2000);
                 }
             }
 

@@ -1,4 +1,4 @@
-package com.aspsine.irecyclerview.demo.widget;
+package com.aspsine.irecyclerview.demo.ui.widget;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -10,12 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.aspsine.irecyclerview.demo.Image;
 import com.aspsine.irecyclerview.demo.R;
-import com.squareup.picasso.Picasso;
+import com.aspsine.irecyclerview.demo.model.Image;
+import com.bumptech.glide.Glide;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class BannerView extends FrameLayout {
 
     private Adapter mAdapter;
 
-    private LinearLayout llIndicators;
+    private CirclePageIndicator indicator;
 
     public BannerView(Context context) {
         this(context, null);
@@ -45,10 +45,12 @@ public class BannerView extends FrameLayout {
         inflate(context, R.layout.layout_banner, this);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        llIndicators = (LinearLayout) findViewById(R.id.llIndicators);
+        indicator = (CirclePageIndicator) findViewById(R.id.indicator);
 
         mAdapter = new Adapter();
         viewPager.setAdapter(mAdapter);
+
+        indicator.setViewPager(viewPager);
     }
 
     public void setList(List<Image> images) {
@@ -90,14 +92,15 @@ public class BannerView extends FrameLayout {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             Context context = container.getContext();
-            View view = LayoutInflater.from(context).inflate(R.layout.layout_banner_item, container, true);
+            View view = LayoutInflater.from(context).inflate(R.layout.layout_banner_item, container, false);
             ImageView ivImage = (ImageView) view.findViewById(R.id.ivImage);
             TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
 
             Image image = mImages.get(position);
             view.setTag(image);
-            Picasso.with(context).load(image.image).centerCrop().into(ivImage);
-            tvTitle.setText(image.title);
+            Glide.with(context).load(image.image).into(ivImage);
+//            tvTitle.setText(image.title);
+            container.addView(view);
             return view;
         }
 

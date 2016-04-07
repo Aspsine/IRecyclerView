@@ -1,4 +1,4 @@
-package com.aspsine.irecyclerview.demo;
+package com.aspsine.irecyclerview.demo.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.aspsine.irecyclerview.IViewHolder;
-import com.squareup.picasso.Picasso;
+import com.aspsine.irecyclerview.demo.R;
+import com.aspsine.irecyclerview.demo.model.Image;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +54,10 @@ public class ImageAdapter extends RecyclerView.Adapter<IViewHolder> {
 
     @Override
     public IViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_image_item, parent, false);
-        final ViewHolder holder = new ViewHolder(itemView);
-        itemView.setOnClickListener(new View.OnClickListener() {
+        ImageView imageView = (ImageView) LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_image_item, parent, false);
+
+        final ViewHolder holder = new ViewHolder(imageView);
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /**
@@ -79,7 +82,7 @@ public class ImageAdapter extends RecyclerView.Adapter<IViewHolder> {
     public void onBindViewHolder(IViewHolder holder, int position) {
         ImageView imageView = (ImageView) holder.itemView;
         Image image = mImages.get(position);
-        Picasso.with(imageView.getContext()).load(image.image).into(imageView);
+        Glide.with(imageView.getContext()).load(image.image).dontAnimate().into(imageView);
     }
 
     @Override

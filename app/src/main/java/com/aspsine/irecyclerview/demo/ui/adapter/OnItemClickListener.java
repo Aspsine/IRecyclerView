@@ -1,4 +1,4 @@
-package com.aspsine.irecyclerview.demo;
+package com.aspsine.irecyclerview.demo.ui.adapter;
 
 import android.view.View;
 

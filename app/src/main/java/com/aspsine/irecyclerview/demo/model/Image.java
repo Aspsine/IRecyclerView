@@ -1,4 +1,4 @@
-package com.aspsine.irecyclerview.demo;
+package com.aspsine.irecyclerview.demo.model;
 
 /**
  * Created by aspsine on 16/4/5.

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivBatMan"
+        android:layout_width="69dp"
+        android:layout_height="120dp"
+        android:layout_gravity="left"
+        android:background="@mipmap/batman"
+        android:scaleType="centerInside" />
+
+    <ImageView
+        android:id="@+id/ivSuperMan"
+        android:layout_width="74dp"
+        android:layout_height="120dp"
+        android:layout_gravity="right"
+        android:background="@mipmap/superman" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="122dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:background="@mipmap/bat_vs_supper" />
+</merge>

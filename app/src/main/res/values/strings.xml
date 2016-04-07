@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">IRecyclerView</string>
+    <string name="app_name">IRecyclerView Demo</string>
+    <string name="activity_main_title">BAT MAN VS SUPER MAN</string>
 </resources>

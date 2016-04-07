@@ -1,4 +1,4 @@
-package com.aspsine.irecyclerview.demo.widget.footer;
+package com.aspsine.irecyclerview.demo.ui.widget.footer;
 
 import android.content.Context;
 import android.util.AttributeSet;
