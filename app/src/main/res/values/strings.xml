@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">IRecyclerView Demo</string>
     <string name="activity_main_title">BAT MAN VS SUPER MAN</string>
+    <string name="action_toggle_header">Toggle</string>
 </resources>
