@@ -22,6 +22,10 @@ public class GsonCallbackWrapper<T> implements okhttp3.Callback {
 
     private TypeToken<T> mTypeToken;
 
+    /**
+     * @param callback  callback to be wrapped
+     * @param typeToken why we need a TypeToken instance? see: https://github.com/google/gson/issues/828
+     */
     public GsonCallbackWrapper(NetworkAPI.Callback<T> callback, TypeToken<T> typeToken) {
         this.mCallback = callback;
         this.mTypeToken = typeToken;
