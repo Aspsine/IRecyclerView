@@ -1,3 +1,4 @@
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-IRecyclerView-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/3403)
 # IRecyclerView
 IRecyclerView is a custom RecyclerView that supports pull-to-refresh, pull-to-loadmore, customize refresh header and loadmore footer, add header views and footer views.
 
