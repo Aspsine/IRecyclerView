@@ -1,6 +1,7 @@
 package okhttp3;
 
 import android.os.Handler;
+import android.os.Looper;
 
 import com.aspsine.irecyclerview.demo.network.NetworkAPI;
 import com.google.gson.Gson;
@@ -13,15 +14,16 @@ import java.io.IOException;
  */
 public class GsonCallbackWrapper<T> implements okhttp3.Callback {
 
-    NetworkAPI.Callback<T> mCallback;
+    private static final Handler sHandler = new Handler(Looper.getMainLooper());
 
-    Handler mHandler;
+    private static final Gson sGson = new Gson();
 
-    TypeToken<T> mTypeToken;
+    private NetworkAPI.Callback<T> mCallback;
 
-    public GsonCallbackWrapper(NetworkAPI.Callback<T> callback, Handler handler, TypeToken<T> typeToken) {
+    private TypeToken<T> mTypeToken;
+
+    public GsonCallbackWrapper(NetworkAPI.Callback<T> callback, TypeToken<T> typeToken) {
         this.mCallback = callback;
-        this.mHandler = handler;
         this.mTypeToken = typeToken;
     }
 
@@ -29,8 +31,7 @@ public class GsonCallbackWrapper<T> implements okhttp3.Callback {
     public void onResponse(Call call, Response response) throws IOException {
         if (response.isSuccessful()) {
             ResponseBody responseBody = response.body();
-            Gson gson = new Gson();
-            final T t = gson.fromJson(responseBody.charStream(), mTypeToken.getType());
+            final T t = sGson.getAdapter(mTypeToken).fromJson(responseBody.charStream());
             deliverToMainThread(new Runnable() {
                 @Override
                 public void run() {
@@ -51,6 +52,6 @@ public class GsonCallbackWrapper<T> implements okhttp3.Callback {
     }
 
     public void deliverToMainThread(Runnable runnable) {
-        mHandler.post(runnable);
+        sHandler.post(runnable);
     }
 }
