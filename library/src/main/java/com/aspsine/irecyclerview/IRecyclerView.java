@@ -38,6 +38,8 @@ public class IRecyclerView extends RecyclerView {
 
     private int mStatus;
 
+    private boolean mIsAutoRefreshing;
+
     private boolean mRefreshEnabled;
 
     private boolean mLoadMoreEnabled;
@@ -155,10 +157,14 @@ public class IRecyclerView extends RecyclerView {
 
     public void setRefreshing(boolean refreshing) {
         if (mStatus == STATUS_DEFAULT && refreshing) {
+            this.mIsAutoRefreshing = true;
+            setStatus(STATUS_SWIPING_TO_REFRESH);
             startScrollDefaultStatusToRefreshingStatus();
         } else if (mStatus == STATUS_REFRESHING && !refreshing) {
+            this.mIsAutoRefreshing = false;
             startScrollRefreshingStatusToDefaultStatus();
         } else {
+            this.mIsAutoRefreshing = false;
             Log.e(TAG, "isRefresh = " + refreshing + " current status = " + mStatus);
         }
     }
@@ -487,7 +493,7 @@ public class IRecyclerView extends RecyclerView {
 
         int targetHeight = mRefreshHeaderView.getMeasuredHeight();
         int currentHeight = mRefreshHeaderContainer.getMeasuredHeight();
-        startScrollAnimation(300, new AccelerateInterpolator(), currentHeight, targetHeight);
+        startScrollAnimation(400, new AccelerateInterpolator(), currentHeight, targetHeight);
     }
 
     private void startScrollSwipingToRefreshStatusToDefaultStatus() {
@@ -504,17 +510,17 @@ public class IRecyclerView extends RecyclerView {
         startScrollAnimation(300, new DecelerateInterpolator(), currentHeight, targetHeight);
     }
 
-    public void startScrollRefreshingStatusToDefaultStatus() {
+    private void startScrollRefreshingStatusToDefaultStatus() {
         mRefreshTrigger.onComplete();
 
         final int targetHeight = 0;
         final int currentHeight = mRefreshHeaderContainer.getMeasuredHeight();
-        startScrollAnimation(200, new DecelerateInterpolator(), currentHeight, targetHeight);
+        startScrollAnimation(400, new DecelerateInterpolator(), currentHeight, targetHeight);
     }
 
     ValueAnimator mScrollAnimator;
 
-    public void startScrollAnimation(final int time, final Interpolator interpolator, int value, int toValue) {
+    private void startScrollAnimation(final int time, final Interpolator interpolator, int value, int toValue) {
         if (mScrollAnimator == null) {
             mScrollAnimator = new ValueAnimator();
         }
@@ -564,9 +570,19 @@ public class IRecyclerView extends RecyclerView {
 
             switch (mStatus) {
                 case STATUS_SWIPING_TO_REFRESH: {
-                    mRefreshHeaderContainer.getLayoutParams().height = 0;
-                    mRefreshHeaderContainer.requestLayout();
-                    setStatus(STATUS_DEFAULT);
+                    if (mIsAutoRefreshing) {
+                        mRefreshHeaderContainer.getLayoutParams().height = mRefreshHeaderView.getMeasuredHeight();
+                        mRefreshHeaderContainer.requestLayout();
+                        setStatus(STATUS_REFRESHING);
+                        if (mOnRefreshListener != null) {
+                            mOnRefreshListener.onRefresh();
+                            mRefreshTrigger.onRefresh();
+                        }
+                    } else {
+                        mRefreshHeaderContainer.getLayoutParams().height = 0;
+                        mRefreshHeaderContainer.requestLayout();
+                        setStatus(STATUS_DEFAULT);
+                    }
                 }
                 break;
 
@@ -582,6 +598,7 @@ public class IRecyclerView extends RecyclerView {
                 break;
 
                 case STATUS_REFRESHING: {
+                    mIsAutoRefreshing = false;
                     mRefreshHeaderContainer.getLayoutParams().height = 0;
                     mRefreshHeaderContainer.requestLayout();
                     setStatus(STATUS_DEFAULT);
@@ -595,7 +612,7 @@ public class IRecyclerView extends RecyclerView {
         }
     };
 
-    public void onFingerUpStartAnimating() {
+    private void onFingerUpStartAnimating() {
         if (mStatus == STATUS_RELEASE_TO_REFRESH) {
             startScrollReleaseStatusToRefreshingStatus();
         } else if (mStatus == STATUS_SWIPING_TO_REFRESH) {

@@ -57,6 +57,13 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         iRecyclerView.setOnLoadMoreListener(this);
 
         mAdapter.setOnItemClickListener(this);
+
+        iRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                iRecyclerView.setRefreshing(true);
+            }
+        });
     }
 
     @Override
