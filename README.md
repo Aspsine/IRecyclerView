@@ -39,14 +39,13 @@ allprojects {
 Step 2. Add the dependency
 ```groovy
 dependencies {
-    compile 'com.github.Aspsine:IRecyclerView:0.0.1'
+    compile 'com.github.Aspsine:IRecyclerView:0.0.2'
 }
 ```
 Step 3. Edit your Activity/Fragment content view layout
 ```xml
 <com.aspsine.irecyclerview.IRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/iRecyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
