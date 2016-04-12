@@ -87,6 +87,17 @@ iRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
 
     }
 });
+
+// set auto refreshing
+iRecyclerView.post(new Runnable() {
+    @Override
+   public void run() {
+       iRecyclerView.setRefreshing(true);
+   }
+});
+
+// stop refreshing
+iRecyclerView.setRefreshing(false);
 ```
 
 Please check out the demo code for more details .
