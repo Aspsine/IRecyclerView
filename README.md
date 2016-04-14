@@ -9,6 +9,7 @@ IRecyclerView is a custom RecyclerView that supports pull-to-refresh, pull-to-lo
 - customize loadmore footer
 - add multiple header view
 - add multiple footer view
+- support vertical LinearLayoutManager/GridLayoutManager/StaggeredGridLayoutManager
 
 ### Demo
 [Download](https://github.com/Aspsine/IRecyclerView/blob/master/art/demo.apk?raw=true)
