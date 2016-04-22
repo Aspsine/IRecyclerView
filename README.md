@@ -62,7 +62,7 @@ IRecyclerView iRecyclerView = (IRecyclerView) findViewById(R.id.iRecyclerView);
 
 iRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-// an custom footer view, you can customize it yourself.
+// an custom load more footer view, you can customize it yourself.
 LoadMoreFooterView loadMoreFooterView = (LoadMoreFooterView) iRecyclerView.getLoadMoreFooterView();
 
 // you can also add header and footer like this
