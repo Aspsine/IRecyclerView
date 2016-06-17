@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     }
 
     @Override
-    public void onLoadMore(View loadMoreView) {
+    public void onLoadMore() {
         if (loadMoreFooterView.canLoadMore() && mAdapter.getItemCount() > 0) {
             loadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
             loadMore();

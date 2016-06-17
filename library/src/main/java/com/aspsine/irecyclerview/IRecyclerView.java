@@ -50,8 +50,6 @@ public class IRecyclerView extends RecyclerView {
 
     private OnLoadMoreListener mOnLoadMoreListener;
 
-    private OnLoadMoreScrollListener mOnLoadMoreScrollListener;
-
     private RefreshHeaderLayout mRefreshHeaderContainer;
 
     private FrameLayout mLoadMoreFooterContainer;
@@ -82,13 +80,11 @@ public class IRecyclerView extends RecyclerView {
         boolean loadMoreEnabled;
 
         try {
-
             refreshEnabled = a.getBoolean(R.styleable.IRecyclerView_refreshEnabled, false);
             loadMoreEnabled = a.getBoolean(R.styleable.IRecyclerView_loadMoreEnabled, false);
             refreshHeaderLayoutRes = a.getResourceId(R.styleable.IRecyclerView_refreshHeaderLayout, -1);
             loadMoreFooterLayoutRes = a.getResourceId(R.styleable.IRecyclerView_loadMoreFooterLayout, -1);
             refreshFinalMoveOffset = a.getDimensionPixelOffset(R.styleable.IRecyclerView_refreshFinalMoveOffset, -1);
-
         } finally {
             a.recycle();
         }
@@ -126,24 +122,10 @@ public class IRecyclerView extends RecyclerView {
     public void setLoadMoreEnabled(boolean enabled) {
         this.mLoadMoreEnabled = enabled;
         if (mLoadMoreEnabled) {
-            if (mOnLoadMoreScrollListener == null) {
-                mOnLoadMoreScrollListener = new OnLoadMoreScrollListener() {
-                    @Override
-                    public void onLoadMore(RecyclerView recyclerView) {
-
-                        if (mOnLoadMoreListener != null && mStatus == STATUS_DEFAULT) {
-                            mOnLoadMoreListener.onLoadMore(mLoadMoreFooterView);
-                        }
-                    }
-                };
-            } else {
-                removeOnScrollListener(mOnLoadMoreScrollListener);
-            }
+            removeOnScrollListener(mOnLoadMoreScrollListener);
             addOnScrollListener(mOnLoadMoreScrollListener);
         } else {
-            if (mOnLoadMoreScrollListener != null) {
-                removeOnScrollListener(mOnLoadMoreScrollListener);
-            }
+            removeOnScrollListener(mOnLoadMoreScrollListener);
         }
     }
 
@@ -165,7 +147,7 @@ public class IRecyclerView extends RecyclerView {
             startScrollRefreshingStatusToDefaultStatus();
         } else {
             this.mIsAutoRefreshing = false;
-            Log.e(TAG, "isRefresh = " + refreshing + " current status = " + mStatus);
+            Log.w(TAG, "isRefresh = " + refreshing + " current status = " + mStatus);
         }
     }
 
@@ -174,7 +156,7 @@ public class IRecyclerView extends RecyclerView {
     }
 
     public void setRefreshHeaderView(View refreshHeaderView) {
-        if (!isRefreshTrigger(refreshHeaderView)) {
+        if (!(refreshHeaderView instanceof RefreshTrigger)) {
             throw new ClassCastException("Refresh header view must be an implement of RefreshTrigger");
         }
 
@@ -292,10 +274,6 @@ public class IRecyclerView extends RecyclerView {
             mFooterViewContainer.setOrientation(LinearLayout.VERTICAL);
             mFooterViewContainer.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
-    }
-
-    private boolean isRefreshTrigger(View refreshHeaderView) {
-        return refreshHeaderView instanceof RefreshTrigger;
     }
 
     private void removeRefreshHeaderView() {
@@ -457,8 +435,27 @@ public class IRecyclerView extends RecyclerView {
         return (int) (MotionEventCompat.getY(e, pointerIndex) + 0.5f);
     }
 
+    private void onFingerUpStartAnimating() {
+        if (mStatus == STATUS_RELEASE_TO_REFRESH) {
+            startScrollReleaseStatusToRefreshingStatus();
+        } else if (mStatus == STATUS_SWIPING_TO_REFRESH) {
+            startScrollSwipingToRefreshStatusToDefaultStatus();
+        }
+    }
+
+    private void onPointerUp(MotionEvent e) {
+        final int actionIndex = MotionEventCompat.getActionIndex(e);
+        if (MotionEventCompat.getPointerId(e, actionIndex) == mActivePointerId) {
+            // Pick a new pointer to pick up the slack.
+            final int newIndex = actionIndex == 0 ? 1 : 0;
+            mActivePointerId = MotionEventCompat.getPointerId(e, newIndex);
+            mLastTouchX = getMotionEventX(e, newIndex);
+            mLastTouchY = getMotionEventY(e, newIndex);
+        }
+    }
+
     private void fingerMove(int dy) {
-        int ratioDy = (int) (dy * 0.5f + 0.5);
+        int ratioDy = (int) (dy * 0.5f + 0.5f);
         int offset = mRefreshHeaderContainer.getMeasuredHeight();
         int finalDragOffset = mRefreshFinalMoveOffset;
 
@@ -518,7 +515,7 @@ public class IRecyclerView extends RecyclerView {
         startScrollAnimation(400, new DecelerateInterpolator(), currentHeight, targetHeight);
     }
 
-    ValueAnimator mScrollAnimator;
+    private ValueAnimator mScrollAnimator;
 
     private void startScrollAnimation(final int time, final Interpolator interpolator, int value, int toValue) {
         if (mScrollAnimator == null) {
@@ -538,7 +535,7 @@ public class IRecyclerView extends RecyclerView {
         mScrollAnimator.start();
     }
 
-    ValueAnimator.AnimatorUpdateListener mAnimatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
+    private ValueAnimator.AnimatorUpdateListener mAnimatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
             final int height = (Integer) animation.getAnimatedValue();
@@ -563,7 +560,7 @@ public class IRecyclerView extends RecyclerView {
         }
     };
 
-    Animator.AnimatorListener mAnimationListener = new SimpleAnimatorListener() {
+    private Animator.AnimatorListener mAnimationListener = new SimpleAnimatorListener() {
         @Override
         public void onAnimationEnd(Animator animation) {
             int lastStatus = mStatus;
@@ -612,26 +609,7 @@ public class IRecyclerView extends RecyclerView {
         }
     };
 
-    private void onFingerUpStartAnimating() {
-        if (mStatus == STATUS_RELEASE_TO_REFRESH) {
-            startScrollReleaseStatusToRefreshingStatus();
-        } else if (mStatus == STATUS_SWIPING_TO_REFRESH) {
-            startScrollSwipingToRefreshStatusToDefaultStatus();
-        }
-    }
-
-    private void onPointerUp(MotionEvent e) {
-        final int actionIndex = MotionEventCompat.getActionIndex(e);
-        if (MotionEventCompat.getPointerId(e, actionIndex) == mActivePointerId) {
-            // Pick a new pointer to pick up the slack.
-            final int newIndex = actionIndex == 0 ? 1 : 0;
-            mActivePointerId = MotionEventCompat.getPointerId(e, newIndex);
-            mLastTouchX = getMotionEventX(e, newIndex);
-            mLastTouchY = getMotionEventY(e, newIndex);
-        }
-    }
-
-    RefreshTrigger mRefreshTrigger = new RefreshTrigger() {
+    private RefreshTrigger mRefreshTrigger = new RefreshTrigger() {
         @Override
         public void onStart(boolean automatic, int headerHeight, int finalHeight) {
             if (mRefreshHeaderView != null && mRefreshHeaderView instanceof RefreshTrigger) {
@@ -677,6 +655,15 @@ public class IRecyclerView extends RecyclerView {
             if (mRefreshHeaderView != null && mRefreshHeaderView instanceof RefreshTrigger) {
                 RefreshTrigger trigger = (RefreshTrigger) mRefreshHeaderView;
                 trigger.onReset();
+            }
+        }
+    };
+
+    private OnLoadMoreScrollListener mOnLoadMoreScrollListener = new OnLoadMoreScrollListener() {
+        @Override
+        public void onLoadMore(RecyclerView recyclerView) {
+            if (mOnLoadMoreListener != null && mStatus == STATUS_DEFAULT) {
+                mOnLoadMoreListener.onLoadMore();
             }
         }
     };
