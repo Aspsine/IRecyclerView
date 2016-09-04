@@ -26,6 +26,7 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final LinearLayout mHeaderContainer;
 
     private final LinearLayout mFooterContainer;
+
     private RecyclerView.AdapterDataObserver mObserver = new RecyclerView.AdapterDataObserver() {
         @Override
         public void onChanged() {
@@ -77,15 +78,17 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
             final GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
+            final GridLayoutManager.SpanSizeLookup spanSizeLookup = gridLayoutManager.getSpanSizeLookup();
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
                     WrapperAdapter wrapperAdapter = (WrapperAdapter) recyclerView.getAdapter();
                     if (isFullSpanType(wrapperAdapter.getItemViewType(position))) {
                         return gridLayoutManager.getSpanCount();
+                    } else if (spanSizeLookup != null) {
+                        return spanSizeLookup.getSpanSize(position - 2);
                     }
                     return 1;
-
                 }
             });
         }
