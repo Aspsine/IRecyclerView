@@ -94,7 +94,7 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
-        int position = holder.getLayoutPosition();
+        int position = holder.getAdapterPosition();
         int type = getItemViewType(position);
         if (isFullSpanType(type)) {
             ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
