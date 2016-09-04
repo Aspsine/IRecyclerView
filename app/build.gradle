@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion '24.0.0'
+    buildToolsVersion '24.0.2'
 
     defaultConfig {
         applicationId "com.aspsine.irecyclerview.demo"
@@ -24,7 +24,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':library')
     //    compile 'com.github.Aspsine:IRecyclerView:0.0.3'
-    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
