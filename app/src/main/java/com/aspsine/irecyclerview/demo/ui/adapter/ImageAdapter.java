@@ -47,6 +47,11 @@ public class ImageAdapter extends RecyclerView.Adapter<IViewHolder> {
         }
     }
 
+    public void remove(int position) {
+        mImages.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public void clear(){
         mImages.clear();
         notifyDataSetChanged();

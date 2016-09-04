@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     @Override
     public void onItemClick(int position, Image image, View v) {
+        mAdapter.remove(position);
         Toast.makeText(this, String.valueOf(position), Toast.LENGTH_SHORT).show();
     }
 
