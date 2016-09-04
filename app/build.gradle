@@ -8,8 +8,8 @@ android {
         applicationId "com.aspsine.irecyclerview.demo"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 4
-        versionName "1.4"
+        versionCode 5
+        versionName "1.5"
     }
     buildTypes {
         release {
