@@ -55,6 +55,17 @@ Step 3. Edit your Activity/Fragment content view layout
     app:refreshEnabled="true"
     app:refreshHeaderLayout="@layout/layout_irecyclerview_refresh_header"/>
 ```
+Available attributes:
+```xml
+<declare-styleable name="IRecyclerView">
+    <attr name="refreshHeaderLayout" format="reference" />  <!--refresh header layout res id-->
+    <attr name="loadMoreFooterLayout" format="reference" /> <!--loadmore fotter layout res id-->
+    <attr name="refreshEnabled" format="boolean" />
+    <attr name="loadMoreEnabled" format="boolean" />
+    <attr name="refreshFinalMoveOffset" format="dimension" />   <!--refresh header max move distance-->
+</declare-styleable>
+```
+
 Then Editor your Activity/Fragment
 
 ```java
