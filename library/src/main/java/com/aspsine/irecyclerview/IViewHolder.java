@@ -22,6 +22,9 @@ public abstract class IViewHolder extends RecyclerView.ViewHolder {
     }
 
     public final int getIAdapterPosition() {
+        if (getAdapterPosition() == RecyclerView.NO_POSITION) {
+            return RecyclerView.NO_POSITION;
+        }
         return getAdapterPosition() - 2;
     }
 

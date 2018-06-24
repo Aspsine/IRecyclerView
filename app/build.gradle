@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '24.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.aspsine.irecyclerview.demo"
         minSdkVersion 15
-        targetSdkVersion 24
-        versionCode 5
-        versionName "1.5"
+        targetSdkVersion 27
+        versionCode 6
+        versionName "1.6"
     }
     buildTypes {
         release {
@@ -20,14 +20,19 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile project(':library')
-    //    compile 'com.github.Aspsine:IRecyclerView:0.0.3'
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.google.code.gson:gson:2.6.2'
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    implementation project(':library')
+    //    implementation 'com.github.Aspsine:IRecyclerView:0.0.3'
+    implementation ('com.android.support:appcompat-v7:27.1.1')
+    implementation ('com.android.support:recyclerview-v7:27.1.1')
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
+    implementation ('com.github.JakeWharton:ViewPagerIndicator:2.4.1'){
+        transitive = true
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'support-v7'
+    }
+    implementation 'com.github.bumptech.glide:glide:3.8.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
 }

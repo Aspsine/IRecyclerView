@@ -1,5 +1,6 @@
 package com.aspsine.irecyclerview;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -74,7 +75,7 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull final RecyclerView recyclerView) {
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
             final GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
@@ -95,7 +96,7 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+    public void onViewAttachedToWindow(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         int position = holder.getAdapterPosition();
         int type = getItemViewType(position);
@@ -134,8 +135,9 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         throw new IllegalArgumentException("Wrong type! Position = " + position);
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == REFRESH_HEADER) {
             return new RefreshHeaderContainerViewHolder(mRefreshHeaderContainer);
         } else if (viewType == HEADER) {
@@ -150,7 +152,7 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (1 < position && position < mAdapter.getItemCount() + 2) {
             mAdapter.onBindViewHolder(holder, position - 2);
         }
@@ -158,28 +160,28 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     static class RefreshHeaderContainerViewHolder extends RecyclerView.ViewHolder {
 
-        public RefreshHeaderContainerViewHolder(View itemView) {
+        RefreshHeaderContainerViewHolder(View itemView) {
             super(itemView);
         }
     }
 
     static class HeaderContainerViewHolder extends RecyclerView.ViewHolder {
 
-        public HeaderContainerViewHolder(View itemView) {
+        HeaderContainerViewHolder(View itemView) {
             super(itemView);
         }
     }
 
     static class FooterContainerViewHolder extends RecyclerView.ViewHolder {
 
-        public FooterContainerViewHolder(View itemView) {
+        FooterContainerViewHolder(View itemView) {
             super(itemView);
         }
     }
 
     static class LoadMoreFooterContainerViewHolder extends RecyclerView.ViewHolder {
 
-        public LoadMoreFooterContainerViewHolder(View itemView) {
+        LoadMoreFooterContainerViewHolder(View itemView) {
             super(itemView);
         }
     }

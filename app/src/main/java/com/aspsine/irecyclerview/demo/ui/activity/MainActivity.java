@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        iRecyclerView = (IRecyclerView) findViewById(R.id.iRecyclerView);
+        iRecyclerView = findViewById(R.id.iRecyclerView);
         iRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         bannerView = (BannerView) LayoutInflater.from(this).inflate(R.layout.layout_banner_view, iRecyclerView.getHeaderContainer(), false);
@@ -162,21 +162,9 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                 if (ListUtils.isEmpty(images)) {
                     loadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
                 } else {
-
-//                    mPage++;
-//                    loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-//                    mAdapter.append(images);
-                    /**
-                     * FIXME here we post delay to see more animation, you don't need to do this.
-                     */
-                    loadMoreFooterView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mPage++;
-                            loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-                            mAdapter.append(images);
-                        }
-                    }, 2000);
+                    mPage++;
+                    loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                    mAdapter.append(images);
                 }
             }
 

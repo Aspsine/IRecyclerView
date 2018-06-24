@@ -52,7 +52,7 @@ public class ImageAdapter extends RecyclerView.Adapter<IViewHolder> {
         notifyItemRemoved(position);
     }
 
-    public void clear(){
+    public void clear() {
         mImages.clear();
         notifyDataSetChanged();
     }
@@ -74,9 +74,11 @@ public class ImageAdapter extends RecyclerView.Adapter<IViewHolder> {
                  * {@code IViewHolder.getIAdapterPosition()}
                  */
                 final int position = holder.getIAdapterPosition();
-                final Image image = mImages.get(position);
-                if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onItemClick(position, image, v);
+                if (position != RecyclerView.NO_POSITION) {
+                    final Image image = mImages.get(position);
+                    if (mOnItemClickListener != null) {
+                        mOnItemClickListener.onItemClick(position, image, v);
+                    }
                 }
             }
         });
