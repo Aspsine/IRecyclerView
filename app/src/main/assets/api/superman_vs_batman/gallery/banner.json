@@ -1,14 +1,18 @@
 [
   {
-    "image": "http://media.dcentertainment.com/sites/default/files/BVS-03097-CC_gallery1920x1080_56f050a5970da7.71204464.jpg",
+    "image": "http://batmanvsuperman.dccomics.com/images/gallery/img7.jpg",
+    "title": "Bat Man vs Super Man"
+  },
+  {
+    "image": "http://batmanvsuperman.dccomics.com/images/gallery/img19.jpg",
     "title": "Bat Man"
   },
   {
-    "image": "http://media.dcentertainment.com/sites/default/files/GalleryMovies_1920x1080_BMVSM_Superman_5531579e0e3684.57608419.jpg",
+    "image": "http://batmanvsuperman.dccomics.com/images/gallery/img20.jpg",
     "title": "Super Man"
   },
   {
-    "image": "http://media.dcentertainment.com/sites/default/files/GalleryMovies_1920x1080_BMVSM_WonderWoman_553159026abe98.16459374.jpg",
+    "image": "http://batmanvsuperman.dccomics.com/images/gallery/img3.jpg",
     "title": "Wonder Woman"
   }
 ]
