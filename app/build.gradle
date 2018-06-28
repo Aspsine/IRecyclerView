@@ -8,8 +8,8 @@ android {
         applicationId "com.aspsine.irecyclerview.demo"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 6
-        versionName "1.6"
+        versionCode 7
+        versionName "1.7"
     }
     buildTypes {
         release {
@@ -23,7 +23,7 @@ dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     implementation project(':library')
-    //    implementation 'com.github.Aspsine:IRecyclerView:0.0.3'
+    //    implementation 'com.github.Aspsine:IRecyclerView:0.0.7'
     implementation ('com.android.support:appcompat-v7:27.1.1')
     implementation ('com.android.support:recyclerview-v7:27.1.1')
     implementation 'com.google.code.gson:gson:2.8.0'
